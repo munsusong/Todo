@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>TO DO LIST</title>
+  <!-- 메인 CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- 폰트오썸 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css">
+  <!-- 제이쿼리 CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <input type="text" class="txtb" placeholder="할일을 적어요">
+    <div class="todo">
+      <h3>해야 할일</h3>
+    </div>
+
+    <div class="comp">
+      <h3>완료된 일</h3>
+    </div>
+
+
+
+    <script>
+      // 추가할 div 태그들 정의 const는 상수 변하지 않음
+      const task = "<div class='task'></div>";
+      const del = "<i class='fas fa-trash-alt'></i>";
+      const check = "<i class='fas fa-check'></i>";
+
+      //키 입력시
+      let count = 0;
+      $(".txtb").on("keyup", function (e) {
+        let code = e.which;
+        if (code == 13 && e.target.value != "") {
+          count++;
+          $(".todo").append("<p id=" + count + ">" + e.target.value + del + check + "</p>");
+          $(".todo p").addClass("task");
+          $(".todo p#" + count).css('display', 'none');
+          $(".todo p#" + count).fadeIn();
+          $(".txtb").val("");
+        }
+      });
+
+      //  클릭 이벤트 : 해야할일이나 완료된일을 클릭시
+      $(".todo, .comp").click(function (e) {
+        // console.log(e.target)
+        let target = e.target;
+        if (target.className == "fas fa-check") {
+          let compItem = target.parentNode;
+          console.log(compItem)
+          $(compItem).fadeOut(function () {
+            $('.comp').append(compItem);
+            $('.comp .fa-check').remove();
+            $(compItem).fadeIn();
+          });
+        } else if (target.className == "fas fa-trash-alt") {
+          let temp = target.parentNode;
+          $(temp).fadeOut(function () {
+            $(temp).remove();
+          });
+        }
+      });
+    </script>
+
+</body>
+
+</html>
